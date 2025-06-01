@@ -21,7 +21,22 @@ class Todo {
 
     toggleComplete() {
     this.isComplete = !this.isComplete;
-}
+    }
+
+    set priority(value) {
+         
+        value = value.toLowerCase().trim(); //Remove any caps or whitespace
+
+        if (Todo.validPriorities.includes(value)){ //Check if new priority is valid
+            this._priority = value;
+            return;
+        }
+        throw new Error(`${value} is invalid. Please choose a valid priority between: ${Todo.validPriorities.toString()}`);
+    }
+
+    get priority() {
+        return this._priority;
+    }
 }
 
 export {Todo};
