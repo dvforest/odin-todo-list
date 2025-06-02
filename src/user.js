@@ -1,7 +1,14 @@
+import { Project } from "./project.js";
+
 class User {
+    static defaultProject = "To Do";
+
     constructor(name){
         this.name = name;
         this.projects = [];
+        
+        //Set default project
+        this.addProject(new Project(User.defaultProject));
     }
 
     addProject(project){
