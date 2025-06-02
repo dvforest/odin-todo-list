@@ -1,40 +1,63 @@
 class Dashboard {
-    static sidebar = [
-        {
-            icon: "img/task.svg",
-            title: "Add a task",
-            type: "Action",
-            function: () => Dashboard.addTask(),
-        },
-        {
-            icon: "img/today.svg",
-            title: "Today",
-            type: "Action",
-            function: () => Dashboard.displayTodayTasks(),
-        },
-        {
-            icon: "img/today.svg",
-            title: "Upcoming",
-            type: "Action",
-            function: () => Dashboard.displayUpcomingTasks(),
-        },
-        {
-            icon: "img/projects.svg",
-            title: "My Projects",
-            type: "Section",
-        }
-    ]
+    constructor(user){
+        this.user = user;
+    }
 
-    static addTask(){
+    get sidebar() { //User getter method to ensure sidebar always reflects latest changes to user
+        return {
+            user: {
+                    icon: this.user.icon || "img/default-user.svg", //set default icon if none selected
+                    name: this.user.name,
+            },
+            actions: [        
+                {
+                    icon: "img/task.svg",
+                    title: "Add a task",
+                    function: () => this.addTask(),
+                },
+                {
+                    icon: "img/today.svg",
+                    title: "Today",
+                    function: () => this.displayTodayTasks(),
+                },
+                {
+                    icon: "img/upcoming.svg",
+                    title: "Upcoming",
+                    function: () => this.displayUpcomingTasks(),
+                },
+            ],
+            projects: {
+                icon: "img/projects.svg",
+                title: "My Projects",
+
+                //Extract project titles and map to new array containing just the title and a function call
+                list: this.user.projects.map(project => ({
+                                                    title: project.title,
+                                                    function: () => this.displayProject(project.title),
+                                                    })
+                                        ),
+            }
+        };
+    }
+
+    displaySidebar = () => {
+        //Display sidebar
+    }
+
+    addTask= () => {
         //Display new task modal;
     }
 
-    static displayTodayTasks(){
+    displayTodayTasks = () => {
         //Display tasks for today 
     }
 
-    static displayUpcomingTasks(){
+    displayUpcomingTasks = () => {
         //Display upcoming tasks
+    }
+
+    displayProject = (name) => {
+        //Display project by name
     }
 }
 

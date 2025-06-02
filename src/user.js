@@ -1,13 +1,15 @@
 import { Project } from "./project.js";
+import { Dashboard } from "./dashboard.js";
 
 class User {
     static defaultProject = "To Do";
 
     constructor(name){
         this.name = name;
+
+        this.icon = "img/user.png";
+
         this.projects = [];
-        
-        //Set default project
         this.addProject(new Project(User.defaultProject));
     }
 
