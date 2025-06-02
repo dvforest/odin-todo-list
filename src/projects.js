@@ -1,16 +1,16 @@
 class Project {
     constructor(title){
         this.title = title;
-        this.todos = [];
+        this.tasks = [];
     }
 
-    addTodo(todo){
-        todo.project = this;
-        this.todos.push(todo);
+    addTask(task){
+        task.project = this;
+        this.tasks.push(task);
     }
 
-    removeTodo(index){
-        this.todos.splice(index, 1);
+    removeTask(index){
+        this.tasks.splice(index, 1);
     }
 }
 

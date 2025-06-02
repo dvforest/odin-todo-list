@@ -1,8 +1,8 @@
-class Todo {
-    static validPriorities = ["low", "moderate", "urgent"];
+class Task {
+    static validPriorities = ["Low", "Moderate", "Urgent"];
 
-    constructor(task, description, dueDate, priority, project){
-        this.task = task;
+    constructor(title, description, dueDate, priority, project){
+        this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
@@ -24,14 +24,11 @@ class Todo {
     }
 
     set priority(value) {
-         
-        value = value.toLowerCase().trim(); //Remove any caps or whitespace
-
-        if (Todo.validPriorities.includes(value)){ //Check if new priority is valid
+        if (Task.validPriorities.includes(value)){ //Check if new priority is valid
             this._priority = value;
             return;
         }
-        throw new Error(`${value} is invalid. Please choose a valid priority between: ${Todo.validPriorities.toString()}`);
+        throw new Error(`${value} is invalid. Please choose a valid priority between: ${Task.validPriorities.toString()}`);
     }
 
     get priority() {
@@ -39,4 +36,4 @@ class Todo {
     }
 }
 
-export {Todo};
+export {Task};
