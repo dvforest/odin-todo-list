@@ -1,5 +1,5 @@
 import { Project } from "./project.js";
-import { Dashboard } from "./dashboard.js";
+import userImage from "./img/default-user.png";
 
 class User {
     static defaultProject = "To Do";
@@ -7,7 +7,7 @@ class User {
     constructor(name){
         this.name = name;
 
-        this.icon = "img/user.png";
+        this.icon = userImage;
 
         this.projects = [];
         this.addProject(new Project(User.defaultProject));
