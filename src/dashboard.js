@@ -1,4 +1,4 @@
-import defaultUserImage from "./img/default-user.png";
+import defaultUserImage from "./img/default-user.svg";
 import taskSVG from "./img/task.svg";
 import todaySVG from "./img/today.svg";
 import upcomingSVG from "./img/upcoming.svg";
@@ -101,6 +101,7 @@ class Dashboard {
 
             const icon = document.createElement("img");
             icon.classList.add("action-icon");
+            icon.classList.add(`${action.class}-icon`);
             icon.src = action.icon;
             li.appendChild(icon);
 

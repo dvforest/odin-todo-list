@@ -1,5 +1,5 @@
 import { Project } from "./project.js";
-import userImage from "./img/default-user.png";
+import userImage from "./img/default-user.svg";
 
 class User {
     static defaultProject = "To Do";
