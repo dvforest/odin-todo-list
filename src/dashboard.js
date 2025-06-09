@@ -20,19 +20,19 @@ class Dashboard {
                 {
                     icon: taskSVG,
                     title: "Add a task",
-                    class: "add-task",
+                    className: "add-task",
                     function: () => this.addTask(),
                 },
                 {
                     icon: todaySVG,
                     title: "Today",
-                    class: "today",
+                    className: "today",
                     function: () => this.displayTodayTasks(),
                 },
                 {
                     icon: upcomingSVG,
                     title: "Upcoming",
-                    class: "upcoming",
+                    className: "upcoming",
                     function: () => this.displayUpcomingTasks(),
                 },
             ],
@@ -71,75 +71,76 @@ class Dashboard {
     }
 
     render = () => {
-        const sidebarDiv = document.querySelector(".sidebar");
+        const sidebarMenu = document.querySelector(".sidebar-menu");
+        
 
         // User Name
-        const userDiv = document.createElement("div");
-        userDiv.classList.add("user-container");
-        sidebarDiv.appendChild(userDiv);
+        const userSection = document.createElement("div");
+        userSection.classList.add("sidebar-section");
+        sidebarMenu.appendChild(userSection);
+
+        const userBtn = document.createElement("button");
+        userBtn.classList.add("sidebar-button");
+        userSection.appendChild(userBtn);
         
         const userIcon = document.createElement("img");
-        userIcon.classList.add("user-icon");
         userIcon.src = this.sidebar.user.icon;
-        userDiv.appendChild(userIcon);
+        userBtn.appendChild(userIcon);
 
         const userName = document.createElement("div");
-        userName.classList.add("user-name");
+        userName.classList.add("sidebar-title", "sidebar-username");
         userName.textContent = this.sidebar.user.name;
-        userDiv.appendChild(userName);
+        userBtn.appendChild(userName);
+
         
         // Actions
-        const actionsDiv = document.createElement("ul");
-        actionsDiv.classList.add("actions-container");
-        sidebarDiv.appendChild(actionsDiv);
+        const actionsSection = document.createElement("div");
+        actionsSection.classList.add("sidebar-section");
+        sidebarMenu.appendChild(actionsSection);
 
         this.sidebar.actions.forEach( (action) => {
-            const li = document.createElement("li");
-            li.classList.add(action.class);
-            li.classList.add("action-item");
-            actionsDiv.appendChild(li);
+            const actionBtn = document.createElement("button");
+            actionBtn.classList.add("sidebar-button", action.className);
+            actionsSection.appendChild(actionBtn);
 
             const icon = document.createElement("img");
-            icon.classList.add("action-icon");
-            icon.classList.add(`${action.class}-icon`);
             icon.src = action.icon;
-            li.appendChild(icon);
+            actionBtn.appendChild(icon);
 
             const title = document.createElement("div");
-            title.classList.add("action-title");
+            title.classList.add("sidebar-title");
             title.textContent = action.title;
-            li.appendChild(title);
+            actionBtn.appendChild(title);
 
-            li.addEventListener("click", action.function);
+            actionBtn.addEventListener("click", action.function);
         });
 
         // Projects
 
-        const projectsDiv = document.createElement("div");
-        projectsDiv.classList.add("projects-container");
-        sidebarDiv.appendChild(projectsDiv);
+        const projectsSection = document.createElement("div");
+        projectsSection.classList.add("sidebar-section");
+        sidebarMenu.appendChild(projectsSection);
 
         const projectsTitle = document.createElement("div");
-        projectsTitle.classList.add("projects-title");
+        projectsTitle.classList.add("sidebar-inert-title");
         projectsTitle.textContent = this.sidebar.projects.title;
-        projectsDiv.appendChild(projectsTitle);
+        projectsSection.appendChild(projectsTitle);
 
         this.sidebar.projects.list.forEach((project) => {
-            const li = document.createElement("li");
-            li.classList.add("project-item");
-            projectsDiv.appendChild(li);
+            const projectBtn = document.createElement("button");
+            projectBtn.classList.add("sidebar-button");
+            projectsSection.appendChild(projectBtn);
 
             const icon = document.createElement("img");
             icon.src = project.icon;
-            icon.classList.add("project-icon");
-            li.appendChild(icon);
+            projectBtn.appendChild(icon);
 
             const title = document.createElement("div");
             title.textContent = project.title;
-            title.classList.add("project-title");
-            li.appendChild(title);
+            title.classList.add("sidebar-title");
+            projectBtn.appendChild(title);
 
-            li.addEventListener("click", project.function);
+            projectBtn.addEventListener("click", project.function);
         });
     }
 }
