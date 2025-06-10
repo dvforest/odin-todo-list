@@ -70,14 +70,29 @@ class Dashboard {
         console.log(`Display Project ${name}`);
     }
 
-    render = () => {
-        const sidebarMenu = document.querySelector(".sidebar-menu");
+    updateUser = () => {
         
+        const sidebarMenu = document.getElementById("sidebar-menu");
 
-        // User Name
-        const userSection = document.createElement("div");
-        userSection.classList.add("sidebar-section");
-        sidebarMenu.appendChild(userSection);
+        // Get User Section
+
+        const userSectionId = "sidebar-user-section";
+        let userSection = document.getElementById(userSectionId);
+        
+        if (!userSection){
+            userSection = document.createElement("div");
+            userSection.classList.add("sidebar-section");
+            userSection.id = userSectionId;
+            sidebarMenu.appendChild(userSection);
+        }
+        
+        // Clear User Section
+
+        while (userSection.firstChild) {
+            userSection.removeChild(userSection.firstChild);
+        }
+
+        // Create inner elements
 
         const userBtn = document.createElement("button");
         userBtn.classList.add("sidebar-button");
@@ -92,11 +107,30 @@ class Dashboard {
         userName.textContent = this.sidebar.user.name;
         userBtn.appendChild(userName);
 
-        
-        // Actions
-        const actionsSection = document.createElement("div");
-        actionsSection.classList.add("sidebar-section");
-        sidebarMenu.appendChild(actionsSection);
+    }
+
+    updateActions = () => {
+
+        const sidebarMenu = document.getElementById("sidebar-menu");
+
+         // Get Actions Section
+
+        const actionsSectionId = "sidebar-actions-section";
+        let actionsSection = document.getElementById(actionsSectionId);
+        if (!actionsSection) {
+            actionsSection = document.createElement("div");
+            actionsSection.classList.add("sidebar-section");
+            actionsSection.id = actionsSectionId;
+            sidebarMenu.appendChild(actionsSection);
+        }
+
+        // Clear Actions section
+
+        while (actionsSection.firstChild) {
+            actionsSection.removeChild(actionsSection.firstChild);
+        }
+
+        // Create inner elements
 
         this.sidebar.actions.forEach( (action) => {
             const actionBtn = document.createElement("button");
@@ -114,12 +148,30 @@ class Dashboard {
 
             actionBtn.addEventListener("click", action.function);
         });
+    }
 
-        // Projects
+    updateProjects = () => {
 
-        const projectsSection = document.createElement("div");
-        projectsSection.classList.add("sidebar-section");
-        sidebarMenu.appendChild(projectsSection);
+        const sidebarMenu = document.getElementById("sidebar-menu");
+
+        // Get Projects Section
+
+        const projectsSectionId = "projectsSectionId";
+        let projectsSection = document.getElementById(projectsSectionId);
+        if (!projectsSection){
+            projectsSection = document.createElement("div");
+            projectsSection.classList.add("sidebar-section");
+            projectsSection.id = projectsSectionId;
+            sidebarMenu.appendChild(projectsSection);
+        }
+
+        // Crear Projects Section
+
+        while (projectsSection.firstChild) {
+            projectsSection.removeChild(projectsSection.firstChild);
+        }
+
+        // Create inner elements
 
         const projectsTitle = document.createElement("div");
         projectsTitle.classList.add("sidebar-inert-title");
@@ -142,6 +194,14 @@ class Dashboard {
 
             projectBtn.addEventListener("click", project.function);
         });
+    }
+
+    render = () => {
+
+        this.updateUser();
+        this.updateActions();
+        this.updateProjects();
+        
     }
 }
 
