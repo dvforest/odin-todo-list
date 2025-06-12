@@ -15,31 +15,35 @@ class Dashboard {
             user: {
                     icon: this.user.icon || defaultUserImage, //set default icon if none selected
                     name: this.user.name,
+                    id: "sidebar-user-section",
             },
-            actions: [        
-                {
-                    icon: taskSVG,
-                    title: "Add a task",
-                    className: "add-task",
-                    function: () => this.addTask(),
-                },
-                {
-                    icon: todaySVG,
-                    title: "Today",
-                    className: "today",
-                    function: () => this.displayTodayTasks(),
-                },
-                {
-                    icon: upcomingSVG,
-                    title: "Upcoming",
-                    className: "upcoming",
-                    function: () => this.displayUpcomingTasks(),
-                },
-            ],
+            actions: {
+                    id: "sidebar-actions-section",
+                    list: [        
+                        {
+                            icon: taskSVG,
+                            title: "Add a task",
+                            className: "sidebar-add-task",
+                            function: () => this.addTask(),
+                        },
+                        {
+                            icon: todaySVG,
+                            title: "Today",
+                            className: "sidebar-today",
+                            function: () => this.displayTodayTasks(),
+                        },
+                        {
+                            icon: upcomingSVG,
+                            title: "Upcoming",
+                            className: "sidebar-upcoming",
+                            function: () => this.displayUpcomingTasks(),
+                        },
+                    ],
+            },
             projects: {
                 icon: projectsSVG,
                 title: "My Projects",
-                //Extract projects and map to new array containing just the title and a function call
+                id: "sidebar-projects-section",
                 list: this.user.projects.map(project => ({
                                                     title: project.title,
                                                     icon: hashtagSVG,
@@ -50,8 +54,21 @@ class Dashboard {
         };
     }
 
-    displaySidebar = () => {
-        console.log("Display Sidebar");
+    clearHTML = (element) => {
+        while (element.firstChild) {
+            element.removeChild(element.firstChild);
+        }
+    }
+
+    initSidebar = () => {
+        const sidebarMenu = document.getElementById("sidebar-menu");
+
+        Object.values(this.sidebar).forEach(section => {
+            const element = document.createElement("div");
+            element.classList.add("sidebar-section");
+            element.id = section.id;
+            sidebarMenu.appendChild(element);
+        })
     }
 
     addTask= () => {
@@ -59,7 +76,9 @@ class Dashboard {
     }
 
     displayTodayTasks = () => {
-        console.log("Display Today's Tasks");
+        const mainContent = document.getElementById("main-content");
+        this.clearHTML(mainContent);
+
     }
 
     displayUpcomingTasks = () => {
@@ -71,28 +90,9 @@ class Dashboard {
     }
 
     updateUser = () => {
-        
-        const sidebarMenu = document.getElementById("sidebar-menu");
 
-        // Get User Section
-
-        const userSectionId = "sidebar-user-section";
-        let userSection = document.getElementById(userSectionId);
-        
-        if (!userSection){
-            userSection = document.createElement("div");
-            userSection.classList.add("sidebar-section");
-            userSection.id = userSectionId;
-            sidebarMenu.appendChild(userSection);
-        }
-        
-        // Clear User Section
-
-        while (userSection.firstChild) {
-            userSection.removeChild(userSection.firstChild);
-        }
-
-        // Create inner elements
+        let userSection = document.getElementById(this.sidebar.user.id);
+        this.clearHTML(userSection);
 
         const userBtn = document.createElement("button");
         userBtn.classList.add("sidebar-button");
@@ -111,28 +111,10 @@ class Dashboard {
 
     updateActions = () => {
 
-        const sidebarMenu = document.getElementById("sidebar-menu");
+        let actionsSection = document.getElementById(this.sidebar.actions.id);
+        this.clearHTML(actionsSection);
 
-         // Get Actions Section
-
-        const actionsSectionId = "sidebar-actions-section";
-        let actionsSection = document.getElementById(actionsSectionId);
-        if (!actionsSection) {
-            actionsSection = document.createElement("div");
-            actionsSection.classList.add("sidebar-section");
-            actionsSection.id = actionsSectionId;
-            sidebarMenu.appendChild(actionsSection);
-        }
-
-        // Clear Actions section
-
-        while (actionsSection.firstChild) {
-            actionsSection.removeChild(actionsSection.firstChild);
-        }
-
-        // Create inner elements
-
-        this.sidebar.actions.forEach( (action) => {
+        this.sidebar.actions.list.forEach( (action) => {
             const actionBtn = document.createElement("button");
             actionBtn.classList.add("sidebar-button", action.className);
             actionsSection.appendChild(actionBtn);
@@ -152,26 +134,8 @@ class Dashboard {
 
     updateProjects = () => {
 
-        const sidebarMenu = document.getElementById("sidebar-menu");
-
-        // Get Projects Section
-
-        const projectsSectionId = "projectsSectionId";
-        let projectsSection = document.getElementById(projectsSectionId);
-        if (!projectsSection){
-            projectsSection = document.createElement("div");
-            projectsSection.classList.add("sidebar-section");
-            projectsSection.id = projectsSectionId;
-            sidebarMenu.appendChild(projectsSection);
-        }
-
-        // Crear Projects Section
-
-        while (projectsSection.firstChild) {
-            projectsSection.removeChild(projectsSection.firstChild);
-        }
-
-        // Create inner elements
+        let projectsSection = document.getElementById(this.sidebar.projects.id);
+        this.clearHTML(projectsSection);
 
         const projectsTitle = document.createElement("div");
         projectsTitle.classList.add("sidebar-inert-title");
@@ -197,11 +161,10 @@ class Dashboard {
     }
 
     render = () => {
-
+        this.initSidebar();
         this.updateUser();
         this.updateActions();
         this.updateProjects();
-        
     }
 }
 
