@@ -4,6 +4,7 @@ import todaySVG from "./img/today.svg";
 import upcomingSVG from "./img/upcoming.svg";
 import projectsSVG from "./img/projects.svg";
 import hashtagSVG from "./img/hashtag.svg";
+import radioBoxBlankSVG from "./img/radiobox-blank.svg";
 
 class Dashboard {
     constructor(user){
@@ -78,6 +79,32 @@ class Dashboard {
     displayTodayTasks = () => {
         const mainContent = document.getElementById("main-content");
         this.clearHTML(mainContent);
+
+        const h1 = document.createElement("h1");
+        h1.textContent = "Today";
+        mainContent.appendChild(h1);
+    
+        const h2 = document.createElement("h2");
+        h2.textContent = "My Projects";
+        mainContent.appendChild(h2);
+
+        const ul = document.createElement("ul");
+        mainContent.appendChild(ul);
+
+        this.sidebar.projects.list.forEach( (project, index) => {
+            const li = document.createElement("li");
+            ul.appendChild(li);
+
+            const input = document.createElement("input");
+            input.type = "checkbox";
+            input.id = `project${index}`;
+            li.appendChild(input);
+
+            const label = document.createElement("label");
+            label.htmlFor = input.id;
+            label.textContent = project.title;
+            li.appendChild(label);
+        });
 
     }
 
