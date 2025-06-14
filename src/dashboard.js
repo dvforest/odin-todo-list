@@ -97,11 +97,13 @@ class Dashboard {
 
             const input = document.createElement("input");
             input.type = "checkbox";
+            input.classList.add("project-checkbox");
             input.id = `project${index}`;
             li.appendChild(input);
 
             const label = document.createElement("label");
             label.htmlFor = input.id;
+            label.classList.add("project-label");
             label.textContent = project.title;
             li.appendChild(label);
         });

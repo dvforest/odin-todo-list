@@ -12,7 +12,8 @@ h1, h2, h3, h4, h5, h6 {
 
 :root {
     font-size: 16px;
-    --light-gray: #f4f4f4;
+    --lightest-gray: #f7f7f7;
+    --light-gray: #ececec;
     --near-black: #373737;
     --muted-gray: #b4b4b4;
     --pink: #c71717;
@@ -33,12 +34,36 @@ h1, h2, h3, h4, h5, h6 {
     gap: 1.5rem;
     color: var(--near-black);
     padding: 20px;
-    background-color: var(--light-gray);
+    background-color: var(--lightest-gray);
     white-space: nowrap;
 }
 
 .main-content {
     grid-area: main-content;
+    display: flex;
+    flex-direction: column;
+    padding: 75px 120px;
+}
+
+h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.main-content li {
+    border-top: 2px solid var(--light-gray);;
+    padding: 10px 0;
+}
+
+.main-content .project-label {
+    padding-left: 5px;
 }
 
 .sidebar-menu img {
@@ -57,7 +82,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--pink);
 }
 
-.siderbar-add-task > img {
+.sidebar-add-task > img {
     filter: brightness(0) saturate(100%) invert(16%) sepia(91%) saturate(3788%) hue-rotate(354deg) brightness(84%) contrast(92%);
 }
 
@@ -86,4 +111,3 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar-button:active {
     filter: brightness(0) saturate(100%) invert(16%) sepia(91%) saturate(3788%) hue-rotate(354deg) brightness(74%) contrast(92%);
 }
-
