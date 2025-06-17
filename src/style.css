@@ -111,3 +111,33 @@ h2 {
 .sidebar-button:active {
     filter: brightness(0) saturate(100%) invert(16%) sepia(91%) saturate(3788%) hue-rotate(354deg) brightness(74%) contrast(92%);
 }
+
+.modal-backdrop {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+}
+
+.modal-box {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    gap: 16px;
+    padding: 40px;
+    z-index: 1001;
+    box-shadow: 0px 5px 20px rgba(0,0,0, 0.1);
+}
+
+.modal-input-text {
+    padding: 5px 5px;
+}

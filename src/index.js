@@ -7,7 +7,7 @@ import { Dashboard } from "./dashboard.js";
 
 const user = new User("David");
 const project = new Project("Work");
-const task = new Task("Submit report", "Finish draft by Friday", "2025-05-30", "Urgent", project);
+const task = new Task("Submit report", "Finish draft by Friday", "2025-05-30", "urgent", project);
 const dashboard = new Dashboard(user);
 
 user.addProject(project);
