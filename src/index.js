@@ -11,6 +11,6 @@ const task = new Task("Submit report", "Finish draft by Friday", "2025-05-30", "
 const dashboard = new Dashboard(user);
 
 user.addProject(project);
-project.addTask(task);
+user.addTask(task);
 dashboard.render();
 

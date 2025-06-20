@@ -10,6 +10,7 @@ class User {
         this.icon = userImage;
 
         this.projects = [];
+        this.tasks = [];
         this.addProject(new Project(User.defaultProject));
     }
 
@@ -17,8 +18,20 @@ class User {
         this.projects.push(project);
     }
 
-    removeProject(index){
-        this.projects.splice(index, 1);
+    removeProject(title){
+        const index = this.projects.findIndex(project => project.title === title);
+        if (index !== -1){
+            this.projects.splice(index, 1);
+        }
+    }
+
+    getProject(title){
+        return this.projects.find(project => project.title === title);
+    }
+
+    addTask(task){
+        this.tasks.push(task);
+        task.project.addTask(task);
     }
 }
 

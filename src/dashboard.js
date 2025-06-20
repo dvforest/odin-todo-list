@@ -10,9 +10,10 @@ import { Task } from "./task.js";
 class Dashboard {
     constructor(user){
         this.user = user;
+        this.currentPage = "";
     }
 
-    get sidebar() { //User getter method to ensure sidebar always reflects latest changes to user
+    get sidebar() { //Use getter method to ensure sidebar always reflects latest changes to user
         return {
             user: {
                     icon: this.user.icon || defaultUserImage, //set default icon if none selected
@@ -75,12 +76,12 @@ class Dashboard {
 
     addTask= () => {
         
-        // Create new modal, passing current user projects and callback function as arguments.
+        // Create new modal, passing current user projects and a callback function as arguments.
         const projects = this.user.projects.map( project => project.title);
         new TaskModal(  projects,
                         (taskData) => {
-                            const project = this.user.projects.find(project => project.title === taskData.project);
-                            project.addTask(new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority, taskData.project));
+                            const project = this.user.getProject(taskData.project);
+                            this.user.addTask(new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority, project));
                             this.updateProjects();
                         }
         );
