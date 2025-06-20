@@ -46,7 +46,7 @@ class TaskModal extends Modal {
         this.priority.id = "priority-select";
         Task.validPriorities.forEach( priority => {
             const option = document.createElement("option");
-            option.textContent = priority.charAt(0).toUpperCase() + priority.slice(1);
+            option.textContent = priority;
             option.value = priority;
             this.priority.appendChild(option);
         })
@@ -58,9 +58,10 @@ class TaskModal extends Modal {
         projects.forEach(title => {
             const option = document.createElement("option");
             option.textContent = title;
-            option.value = title.toLowerCase();
+            option.value = title;
             this.project.appendChild(option);
         });
+        this.box.appendChild(this.project);
 
         const addBtn = document.createElement("button");
         addBtn.textContent = "Add";
@@ -78,6 +79,7 @@ class TaskModal extends Modal {
             project: this.project.value,
         };
         if (taskData.title){
+            console.log(taskData);
             onSubmit(taskData);
             this.close();
         }

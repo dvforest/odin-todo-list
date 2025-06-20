@@ -79,9 +79,8 @@ class Dashboard {
         const projects = this.user.projects.map( project => project.title);
         new TaskModal(  projects,
                         (taskData) => {
-                            const newTask = new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority, taskData.project);
                             const project = this.user.projects.find(project => project.title === taskData.project);
-                            project.addTask(newTask);
+                            project.addTask(new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority, taskData.project));
                             this.updateProjects();
                         }
         );

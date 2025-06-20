@@ -1,5 +1,5 @@
 class Task {
-    static validPriorities = ["low", "moderate", "urgent"];
+    static validPriorities = ["Low", "Moderate", "Urgent"];
 
     constructor(title, description, dueDate, priority, project){
         this.title = title;
