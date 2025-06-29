@@ -6,6 +6,7 @@ import projectsSVG from "./img/projects.svg";
 import hashtagSVG from "./img/hashtag.svg";
 import { TaskModal } from "./modal.js";
 import { Task } from "./task.js";
+import {createEl} from "./domBuilder.js";
 
 class Dashboard {
     constructor(user){
@@ -65,12 +66,9 @@ class Dashboard {
 
     initSidebar = () => {
         const sidebarMenu = document.getElementById("sidebar-menu");
-
         Object.values(this.sidebar).forEach(section => {
-            const element = document.createElement("div");
-            element.classList.add("sidebar-section");
-            element.id = section.id;
-            sidebarMenu.appendChild(element);
+            const el = createEl("div", {classes: ["sidebar-section"], attrs: {id: section.id}});
+            sidebarMenu.appendChild(el);
         })
     }
 
@@ -88,36 +86,32 @@ class Dashboard {
     }
 
     displayTodayTasks = () => {
+        // Clear main content
         const mainContent = document.getElementById("main-content");
         this.clearHTML(mainContent);
-
-        const h1 = document.createElement("h1");
-        h1.textContent = "Today";
-        mainContent.appendChild(h1);
-    
-        const h2 = document.createElement("h2");
-        h2.textContent = "My Projects";
-        mainContent.appendChild(h2);
-
-        const ul = document.createElement("ul");
-        mainContent.appendChild(ul);
-
-        this.sidebar.projects.list.forEach( (project, index) => {
-            const li = document.createElement("li");
-            ul.appendChild(li);
-
-            const input = document.createElement("input");
-            input.type = "checkbox";
-            input.classList.add("project-checkbox");
-            input.id = `project${index}`;
-            li.appendChild(input);
-
-            const label = document.createElement("label");
-            label.htmlFor = input.id;
-            label.classList.add("project-label");
-            label.textContent = project.title;
-            li.appendChild(label);
+        
+        // Create list of elements for each project containing a checkbox and label
+        const taskList = this.sidebar.projects.list.map( (project, index) => {
+            const inputId = `project${index}`;
+            return createEl("li", {
+                children: [
+                    createEl("input", { classes: ["project-checkbox"], attrs: {type: "checkbox", id: inputId} } ),
+                    createEl("label", { classes: ["project-label"], text: project.title, attrs: {for: inputId} } ),
+                ]
+            })
         });
+
+        // Create structure using created task list
+        const structure = [
+            createEl("h1", {text: "Today"}),
+            createEl("h2", {text: "My Projects"}),
+            createEl("ul", {
+                children: taskList
+            })
+        ];
+
+        // Append structure to main content
+        mainContent.append(...structure);
 
     }
 
@@ -130,74 +124,66 @@ class Dashboard {
     }
 
     updateUser = () => {
-
+        // Clear section
         let userSection = document.getElementById(this.sidebar.user.id);
         this.clearHTML(userSection);
 
-        const userBtn = document.createElement("button");
-        userBtn.classList.add("sidebar-button");
-        userSection.appendChild(userBtn);
-        
-        const userIcon = document.createElement("img");
-        userIcon.src = this.sidebar.user.icon;
-        userBtn.appendChild(userIcon);
-
-        const userName = document.createElement("div");
-        userName.classList.add("sidebar-title", "sidebar-username");
-        userName.textContent = this.sidebar.user.name;
-        userBtn.appendChild(userName);
+        // Append user button with icon and text
+        const btn = createEl("button", {
+            classes: ["sidebar-button"],
+            children: [
+                createEl("img", {attrs: {src: this.sidebar.user.icon}}),
+                createEl("div", {classes: ["sidebar-title", "sidebar-username"], text: this.sidebar.user.name}),
+            ]
+        });
+        userSection.appendChild(btn);
 
     }
 
     updateActions = () => {
-
+        // Clear section
         let actionsSection = document.getElementById(this.sidebar.actions.id);
         this.clearHTML(actionsSection);
 
+        // Append a button for each action containing an icon and title
         this.sidebar.actions.list.forEach( (action) => {
-            const actionBtn = document.createElement("button");
-            actionBtn.classList.add("sidebar-button", action.className);
-            actionsSection.appendChild(actionBtn);
-
-            const icon = document.createElement("img");
-            icon.src = action.icon;
-            actionBtn.appendChild(icon);
-
-            const title = document.createElement("div");
-            title.classList.add("sidebar-title");
-            title.textContent = action.title;
-            actionBtn.appendChild(title);
-
-            actionBtn.addEventListener("click", action.function);
+            const btn = createEl("button", {
+                classes: ["sidebar-button", action.className],
+                children: [
+                    createEl("img", {attrs: {src: action.icon}}),
+                    createEl("div", {classes: ["sidebar-title"], text: action.title}),
+                ]});
+            btn.addEventListener("click", action.function);
+            actionsSection.appendChild(btn);
         });
     }
 
     updateProjects = () => {
-
+        // Clear section
         let projectsSection = document.getElementById(this.sidebar.projects.id);
         this.clearHTML(projectsSection);
 
-        const projectsTitle = document.createElement("div");
-        projectsTitle.classList.add("sidebar-inert-title");
-        projectsTitle.textContent = this.sidebar.projects.title;
-        projectsSection.appendChild(projectsTitle);
+        // Create a button for each project containing an icon and title
+        const projectList = this.sidebar.projects.list.map( project => {
+                const btn = createEl("button", {
+                    classes:["sidebar-button"],
+                    children: [
+                        createEl("img", { attrs: {src: project.icon} }),
+                        createEl("div", {classes: ["sidebar-title"], text: project.title}),
+                    ],
+                });
+                btn.addEventListener("click", project.function);
+                return btn;
+            });
 
-        this.sidebar.projects.list.forEach((project) => {
-            const projectBtn = document.createElement("button");
-            projectBtn.classList.add("sidebar-button");
-            projectsSection.appendChild(projectBtn);
+        // Create structure using project list
+        const structure = [
+            createEl("div", {classes: ["sidebar-inert-title"], text: this.sidebar.projects.title}),
+            ...projectList
+        ]
 
-            const icon = document.createElement("img");
-            icon.src = project.icon;
-            projectBtn.appendChild(icon);
-
-            const title = document.createElement("div");
-            title.textContent = project.title;
-            title.classList.add("sidebar-title");
-            projectBtn.appendChild(title);
-
-            projectBtn.addEventListener("click", project.function);
-        });
+        //Append structure to project section
+        projectsSection.append(...structure);
     }
 
     render = () => {
