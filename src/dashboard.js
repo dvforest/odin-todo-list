@@ -7,6 +7,7 @@ import hashtagSVG from "./img/hashtag.svg";
 import { TaskModal } from "./modal.js";
 import { Task } from "./task.js";
 import {createEl} from "./domBuilder.js";
+import {createModal} from "./modalFactory.js";
 
 class Dashboard {
     constructor(user){
@@ -73,16 +74,60 @@ class Dashboard {
     }
 
     addTask= () => {
-        
-        // Create new modal, passing current user projects and a callback function as arguments.
-        const projects = this.user.projects.map( project => project.title);
-        new TaskModal(  projects,
-                        (taskData) => {
-                            const project = this.user.getProject(taskData.project);
-                            this.user.addTask(new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority, project));
-                            this.updateProjects();
-                        }
-        );
+        const projects = this.user.projects.map(project => project.title);
+
+        // Create form elements
+        const titleInput = createEl("input", { classes: ["modal-input-text"], attrs: { type: "text", placeholder: "Title" } });
+        const descriptionInput = createEl("input", { classes: ["modal-input-text"], attrs: { type: "text", placeholder: "Description" } });
+        const dueDateInput = createEl("input", { classes: ["modal-input-date"], attrs: { type: "date" } });
+
+        // Priority select
+        const prioritySelect = createEl("select", { classes: [], attrs: { name: "priority", id: "priority-select" } });
+        Task.validPriorities.forEach(priority => {
+            const option = createEl("option", { text: priority, attrs: { value: priority } });
+            prioritySelect.appendChild(option);
+        });
+
+        // Project select
+        const projectSelect = createEl("select", { classes: [], attrs: { name: "project", id: "project-select" } });
+        projects.forEach(title => {
+            const option = createEl("option", { text: title, attrs: { value: title } });
+            projectSelect.appendChild(option);
+        });
+
+        // Add button
+        const addBtn = createEl("button", { classes: ["modal-button", "modal-button-add"], text: "Add" });
+
+        // Modal content
+        const content = [
+            createEl("h1", { text: "New Task" }),
+            titleInput,
+            descriptionInput,
+            dueDateInput,
+            prioritySelect,
+            projectSelect,
+            addBtn,
+        ];
+
+        // Show modal
+        const { handleClose } = createModal({ content }, () => {});
+
+        // Add button event
+        addBtn.addEventListener("click", () => {
+            const taskData = {
+                title: titleInput.value.trim(),
+                description: descriptionInput.value.trim(),
+                dueDate: dueDateInput.value,
+                priority: prioritySelect.value,
+                project: projectSelect.value,
+            };
+            if (taskData.title) {
+                const project = this.user.getProject(taskData.project);
+                this.user.addTask(new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority, project));
+                this.updateProjects();
+                handleClose();
+            }
+        });
     }
 
     displayTodayTasks = () => {
