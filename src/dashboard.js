@@ -4,7 +4,6 @@ import todaySVG from "./img/today.svg";
 import upcomingSVG from "./img/upcoming.svg";
 import projectsSVG from "./img/projects.svg";
 import hashtagSVG from "./img/hashtag.svg";
-import { TaskModal } from "./modal.js";
 import { Task } from "./task.js";
 import {createEl} from "./domBuilder.js";
 import {createModal} from "./modalFactory.js";
