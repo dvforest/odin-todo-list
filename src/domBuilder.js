@@ -8,3 +8,9 @@ export function createEl( tag, {classes = [], text = "", attrs = {}, children = 
     children.forEach(child => el.appendChild(child));
     return el;
 };
+
+export function clearHTML(el) {
+        while (el.firstChild) {
+            el.removeChild(el.firstChild);
+        }
+    }

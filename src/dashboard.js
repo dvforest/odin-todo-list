@@ -5,7 +5,7 @@ import upcomingSVG from "./img/upcoming.svg";
 import projectsSVG from "./img/projects.svg";
 import hashtagSVG from "./img/hashtag.svg";
 import { Task } from "./task.js";
-import {createEl} from "./domBuilder.js";
+import {createEl, clearHTML} from "./domBuilder.js";
 import {createModal} from "./modalFactory.js";
 
 class Dashboard {
@@ -56,12 +56,6 @@ class Dashboard {
                                         ),
             }
         };
-    }
-
-    clearHTML = (element) => {
-        while (element.firstChild) {
-            element.removeChild(element.firstChild);
-        }
     }
 
     initSidebar = () => {
@@ -132,7 +126,7 @@ class Dashboard {
     displayTodayTasks = () => {
         // Clear main content
         const mainContent = document.getElementById("main-content");
-        this.clearHTML(mainContent);
+        clearHTML(mainContent);
         
         // Create list of elements for each project containing a checkbox and label
         const taskList = this.sidebar.projects.list.map( (project, index) => {
@@ -170,7 +164,7 @@ class Dashboard {
     updateUser = () => {
         // Clear section
         let userSection = document.getElementById(this.sidebar.user.id);
-        this.clearHTML(userSection);
+        clearHTML(userSection);
 
         // Append user button with icon and text
         const btn = createEl("button", {
@@ -187,7 +181,7 @@ class Dashboard {
     updateActions = () => {
         // Clear section
         let actionsSection = document.getElementById(this.sidebar.actions.id);
-        this.clearHTML(actionsSection);
+        clearHTML(actionsSection);
 
         // Append a button for each action containing an icon and title
         this.sidebar.actions.list.forEach( (action) => {
@@ -205,7 +199,7 @@ class Dashboard {
     updateProjects = () => {
         // Clear section
         let projectsSection = document.getElementById(this.sidebar.projects.id);
-        this.clearHTML(projectsSection);
+        clearHTML(projectsSection);
 
         // Create a button for each project containing an icon and title
         const projectList = this.sidebar.projects.list.map( project => {
