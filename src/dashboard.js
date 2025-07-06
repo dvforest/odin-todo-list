@@ -14,7 +14,7 @@ class Dashboard {
         this.currentPage = "";
     }
 
-    get sidebar() { //Use getter method to ensure sidebar always reflects latest changes to user
+    get sidebar() {
         return {
             user: {
                     icon: this.user.icon || defaultUserImage, //set default icon if none selected
@@ -171,7 +171,7 @@ class Dashboard {
             classes: ["sidebar-button"],
             children: [
                 createEl("img", {attrs: {src: this.sidebar.user.icon}}),
-                createEl("div", {classes: ["sidebar-title", "sidebar-username"], text: this.sidebar.user.name}),
+                createEl("div", {classes: ["sidebar-label", "sidebar-username"], text: this.sidebar.user.name}),
             ]
         });
         userSection.appendChild(btn);
@@ -189,7 +189,7 @@ class Dashboard {
                 classes: ["sidebar-button", action.className],
                 children: [
                     createEl("img", {attrs: {src: action.icon}}),
-                    createEl("div", {classes: ["sidebar-title"], text: action.title}),
+                    createEl("div", {classes: ["sidebar-label"], text: action.title}),
                 ]});
             btn.addEventListener("click", action.function);
             actionsSection.appendChild(btn);
@@ -207,7 +207,7 @@ class Dashboard {
                     classes:["sidebar-button"],
                     children: [
                         createEl("img", { attrs: {src: project.icon} }),
-                        createEl("div", {classes: ["sidebar-title"], text: project.title}),
+                        createEl("div", {classes: ["sidebar-label"], text: project.title}),
                     ],
                 });
                 btn.addEventListener("click", project.function);
@@ -216,7 +216,7 @@ class Dashboard {
 
         // Create structure using project list
         const structure = [
-            createEl("div", {classes: ["sidebar-inert-title"], text: this.sidebar.projects.title}),
+            createEl("div", {classes: ["sidebar-title"], text: this.sidebar.projects.title}),
             ...projectList
         ]
 

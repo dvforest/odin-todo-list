@@ -78,7 +78,7 @@ h2 {
     font-size: 1.1rem;
 }
 
-.sidebar-add-task > .sidebar-title {
+.sidebar-add-task > .sidebar-label {
     color: var(--pink);
 }
 
@@ -86,7 +86,7 @@ h2 {
     filter: brightness(0) saturate(100%) invert(16%) sepia(91%) saturate(3788%) hue-rotate(354deg) brightness(84%) contrast(92%);
 }
 
-.sidebar-inert-title {
+.sidebar-title {
     font-weight: 700;
     color: var(--muted-gray);
     padding: 5px;
