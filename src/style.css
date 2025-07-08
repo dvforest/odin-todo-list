@@ -27,7 +27,7 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-areas: "sidebar main-content";
 }
 
-.sidebar-menu {
+.sidebar-container {
     grid-area: sidebar;
     display: flex;
     flex-direction: column;
@@ -66,14 +66,14 @@ h2 {
     padding-left: 5px;
 }
 
-.sidebar-menu img {
+.sidebar-container img {
     aspect-ratio: 1;
     width: 1.5rem;
     margin-right: 0.5rem;
     filter: brightness(0) saturate(100%) invert(68%) sepia(8%) saturate(5%) hue-rotate(352deg) brightness(86%) contrast(86%);
 }
 
-.sidebar-username {
+.sidebar-username > .sidebar-label {
     font-weight: 700;
     font-size: 1.1rem;
 }

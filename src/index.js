@@ -12,5 +12,4 @@ const dashboard = new Dashboard(user);
 
 user.addProject(project);
 user.addTask(task);
-dashboard.render();
 

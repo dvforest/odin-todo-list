@@ -1,69 +1,25 @@
-import defaultUserImage from "./img/default-user.svg";
-import taskSVG from "./img/task.svg";
-import todaySVG from "./img/today.svg";
-import upcomingSVG from "./img/upcoming.svg";
-import projectsSVG from "./img/projects.svg";
-import hashtagSVG from "./img/hashtag.svg";
 import { Task } from "./task.js";
-import {createEl, clearHTML} from "./domBuilder.js";
-import {createModal} from "./modalFactory.js";
+import { createEl, clearHTML } from "./domBuilder.js";
+import { createModal } from "./modalFactory.js";
+import { getSidebarData } from "./sidebarData.js";
+import { createSidebar, updateSection } from "./sidebar.js";
 
 class Dashboard {
     constructor(user){
+        const appContainer = document.querySelector(".app-container");
         this.user = user;
-        this.currentPage = "";
-    }
-
-    get sidebar() {
-        return {
-            user: {
-                    icon: this.user.icon || defaultUserImage, //set default icon if none selected
-                    name: this.user.name,
-                    id: "sidebar-user-section",
-            },
-            actions: {
-                    id: "sidebar-actions-section",
-                    list: [        
-                        {
-                            icon: taskSVG,
-                            title: "Add a task",
-                            className: "sidebar-add-task",
-                            function: () => this.addTask(),
-                        },
-                        {
-                            icon: todaySVG,
-                            title: "Today",
-                            className: "sidebar-today",
-                            function: () => this.displayTodayTasks(),
-                        },
-                        {
-                            icon: upcomingSVG,
-                            title: "Upcoming",
-                            className: "sidebar-upcoming",
-                            function: () => this.displayUpcomingTasks(),
-                        },
-                    ],
-            },
-            projects: {
-                icon: projectsSVG,
-                title: "My Projects",
-                id: "sidebar-projects-section",
-                list: this.user.projects.map(project => ({
-                                                    title: project.title,
-                                                    icon: hashtagSVG,
-                                                    function: () => this.displayProject(project.title),
-                                                    })
-                                        ),
-            }
-        };
-    }
-
-    initSidebar = () => {
-        const sidebarMenu = document.getElementById("sidebar-menu");
-        Object.values(this.sidebar).forEach(section => {
-            const el = createEl("div", {classes: ["sidebar-section"], attrs: {id: section.id}});
-            sidebarMenu.appendChild(el);
-        })
+        this.currentPage = null;
+        this.sidebar = createSidebar(
+                            getSidebarData( user,
+                                            {
+                                                addTask: () => this.addTask(),
+                                                displayTodayTasks: () => this.displayTodayTasks(),
+                                                displayUpcomingTasks: () => this.displayUpcomingTasks(),
+                                                displayProject: (name) => this.displayProject(name),
+                                            }
+                            ), 
+                            appContainer);
+        appContainer.appendChild(createEl("div", {classes: ["main-content"]}));
     }
 
     addTask= () => {
@@ -125,11 +81,11 @@ class Dashboard {
 
     displayTodayTasks = () => {
         // Clear main content
-        const mainContent = document.getElementById("main-content");
+        const mainContent = document.querySelector(".main-content");
         clearHTML(mainContent);
-        
+
         // Create list of elements for each project containing a checkbox and label
-        const taskList = this.sidebar.projects.list.map( (project, index) => {
+        const taskList = this.user.projects.map( (project, index) => {
             const inputId = `project${index}`;
             return createEl("li", {
                 children: [
@@ -159,76 +115,6 @@ class Dashboard {
 
     displayProject = (name) => {
         console.log(`Display Project ${name}`);
-    }
-
-    updateUser = () => {
-        // Clear section
-        let userSection = document.getElementById(this.sidebar.user.id);
-        clearHTML(userSection);
-
-        // Append user button with icon and text
-        const btn = createEl("button", {
-            classes: ["sidebar-button"],
-            children: [
-                createEl("img", {attrs: {src: this.sidebar.user.icon}}),
-                createEl("div", {classes: ["sidebar-label", "sidebar-username"], text: this.sidebar.user.name}),
-            ]
-        });
-        userSection.appendChild(btn);
-
-    }
-
-    updateActions = () => {
-        // Clear section
-        let actionsSection = document.getElementById(this.sidebar.actions.id);
-        clearHTML(actionsSection);
-
-        // Append a button for each action containing an icon and title
-        this.sidebar.actions.list.forEach( (action) => {
-            const btn = createEl("button", {
-                classes: ["sidebar-button", action.className],
-                children: [
-                    createEl("img", {attrs: {src: action.icon}}),
-                    createEl("div", {classes: ["sidebar-label"], text: action.title}),
-                ]});
-            btn.addEventListener("click", action.function);
-            actionsSection.appendChild(btn);
-        });
-    }
-
-    updateProjects = () => {
-        // Clear section
-        let projectsSection = document.getElementById(this.sidebar.projects.id);
-        clearHTML(projectsSection);
-
-        // Create a button for each project containing an icon and title
-        const projectList = this.sidebar.projects.list.map( project => {
-                const btn = createEl("button", {
-                    classes:["sidebar-button"],
-                    children: [
-                        createEl("img", { attrs: {src: project.icon} }),
-                        createEl("div", {classes: ["sidebar-label"], text: project.title}),
-                    ],
-                });
-                btn.addEventListener("click", project.function);
-                return btn;
-            });
-
-        // Create structure using project list
-        const structure = [
-            createEl("div", {classes: ["sidebar-title"], text: this.sidebar.projects.title}),
-            ...projectList
-        ]
-
-        //Append structure to project section
-        projectsSection.append(...structure);
-    }
-
-    render = () => {
-        this.initSidebar();
-        this.updateUser();
-        this.updateActions();
-        this.updateProjects();
     }
 }
 

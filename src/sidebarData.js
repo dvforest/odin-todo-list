@@ -1,6 +1,12 @@
 import { icon } from "./icons.js";
 
-export function getSidebarData(user, clickActions) {
+export function getSidebarData( user,
+                                clickActions = {
+                                    addTask: () => {},
+                                    displayTodayTasks: () => {},
+                                    displayUpcomingTasks: () => {},
+                                    displayProject: () => {},
+                                }) {
     return {
         user: {
             title: null,
@@ -20,19 +26,19 @@ export function getSidebarData(user, clickActions) {
                         icon: icon.task,
                         label: "Add a task",
                         classList: ["sidebar-add-task"],
-                        onClick: clickActions.addTask,
+                        onClick: () => clickActions.addTask(),
                     },
                     {
                         icon: icon.today,
                         label: "Today",
                         classList: ["sidebar-today"],
-                        onClick: clickActions.displayTodayTasks,
+                        onClick: () => clickActions.displayTodayTasks(),
                     },
                     {
                         icon: icon.upcoming,
                         label: "Upcoming",
                         classList: ["sidebar-upcoming"],
-                        onClick: clickActions.displayUpcomingTasks,
+                        onClick: () => clickActions.displayUpcomingTasks(),
                     },
                 ],
         },
@@ -43,7 +49,7 @@ export function getSidebarData(user, clickActions) {
                     label: project.title,
                     icon: icon.hashtag,
                     classList: ["sidebar-project"],
-                    onClick: clickActions.displayProject(project.title),
+                    onClick: () => clickActions.displayProject(project.title),
                 })
             ),
         }   
