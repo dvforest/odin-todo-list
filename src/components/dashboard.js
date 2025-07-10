@@ -1,7 +1,7 @@
-import { Task } from "./task.js";
-import { createEl, clearHTML } from "./domBuilder.js";
+import { Task } from "../models/task.js";
+import { createEl, clearHTML } from "../utils/domBuilder.js";
 import { createModal } from "./modalFactory.js";
-import { getSidebarData } from "./sidebarData.js";
+import { getSidebarData } from "../data/sidebarData.js";
 import { createSidebar, updateSection } from "./sidebar.js";
 
 class Dashboard {

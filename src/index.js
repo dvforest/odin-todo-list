@@ -1,15 +1,15 @@
-import "./style.css";
+import "./styles/style.css";
 
-import { User } from "./user.js";
-import { Project } from "./project.js";
-import { Task } from "./task.js";
-import { Dashboard } from "./dashboard.js";
+import { User } from "./models/user.js";
+import { Project } from "./models/project.js";
+import { Task } from "./models/task.js";
+import { Dashboard } from "./components/dashboard.js";
 
 const user = new User("David");
 const project = new Project("Work");
 const task = new Task("Submit report", "Finish draft by Friday", "2025-05-30", "Urgent", project);
-const dashboard = new Dashboard(user);
-
 user.addProject(project);
 user.addTask(task);
+const dashboard = new Dashboard(user);
+
 

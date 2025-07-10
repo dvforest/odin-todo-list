@@ -1,5 +1,4 @@
-import { createEl, clearHTML } from "./domBuilder";
-import {createModal} from "./modalFactory.js";
+import { createEl, clearHTML } from "../utils/domBuilder.js";
 
 export function createSidebar(sidebarData, container) {
 

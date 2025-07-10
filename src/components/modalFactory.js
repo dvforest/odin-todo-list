@@ -1,4 +1,4 @@
-import { createEl } from "./domBuilder.js";
+import { createEl } from "../utils/domBuilder.js";
 
 export function createModal({content = []} = {}, onClose = () => {}) {
     const closeBtn = createEl("button", {classes: ["modal-close"], text: "X"});

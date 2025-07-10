@@ -1,0 +1,56 @@
+.sidebar-container {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    color: var(--near-black);
+    padding: 20px;
+    background-color: var(--lightest-gray);
+    white-space: nowrap;
+}
+
+.sidebar-container img {
+    aspect-ratio: 1;
+    width: 1.5rem;
+    margin-right: 0.5rem;
+    filter: brightness(0) saturate(100%) invert(68%) sepia(8%) saturate(5%) hue-rotate(352deg) brightness(86%) contrast(86%);
+}
+
+.sidebar-username > .sidebar-label {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.sidebar-add-task > .sidebar-label {
+    color: var(--pink);
+}
+
+.sidebar-add-task > img {
+    filter: brightness(0) saturate(100%) invert(16%) sepia(91%) saturate(3788%) hue-rotate(354deg) brightness(84%) contrast(92%);
+}
+
+.sidebar-title {
+    font-weight: 700;
+    color: var(--muted-gray);
+    padding: 5px;
+}
+
+.sidebar-button {
+    all: unset;
+    box-sizing: border-box;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.sidebar-button:hover {
+    box-shadow: inset 100px 100px 0px rgba(187, 42, 42, 0.1);
+    filter: brightness(0) saturate(100%) invert(16%) sepia(91%) saturate(3788%) hue-rotate(354deg) brightness(84%) contrast(92%);
+}
+
+.sidebar-button:active {
+    filter: brightness(0) saturate(100%) invert(16%) sepia(91%) saturate(3788%) hue-rotate(354deg) brightness(74%) contrast(92%);
+}
