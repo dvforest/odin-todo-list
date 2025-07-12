@@ -118,7 +118,7 @@ export function createDashboard(user) {
     }
 
     return {
-        getSidebar: () => sidebar.getEl,
+        getSidebar: () => sidebar.getEl(),
         getMainArea: () => mainArea
     };
 

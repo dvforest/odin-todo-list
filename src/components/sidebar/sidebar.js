@@ -53,6 +53,6 @@ export function createSidebar(sidebarData, container) {
 
     return { 
         updateSection,
-        getEl: sidebar, 
+        getEl: () => sidebar, 
     };
 }
