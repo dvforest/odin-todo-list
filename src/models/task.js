@@ -1,14 +1,13 @@
 class Task {
     static validPriorities = ["Low", "Moderate", "Urgent"];
 
-    constructor(title, description, dueDate, priority, project){
+    constructor(title, description, dueDate, priority, isComplete = false, subtasks = []){
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.project = project;
-        this.subtasks = [];
-        this.isComplete = false;
+        this.isComplete = isComplete;
+        this.subtasks = subtasks;
     }
 
     addSubtask(subtask){
@@ -33,6 +32,17 @@ class Task {
 
     get priority() {
         return this._priority;
+    }
+
+    serialize() {
+        return {
+            title: this.title,
+            description: this.description,
+            dueDate: this.dueDate,
+            priority: this.priority,
+            subtasks: this.subtasks,
+            isComplete: this.isComplete,
+        };
     }
 }
 

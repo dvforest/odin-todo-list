@@ -1,16 +1,22 @@
 class Project {
-    constructor(title){
+    constructor(title, tasks = []){
         this.title = title;
-        this.tasks = [];
+        this.tasks = tasks;
     }
 
     addTask(task){
-        task.project = this;
         this.tasks.push(task);
     }
 
     removeTask(index){
         this.tasks.splice(index, 1);
+    }
+
+    serialize(){
+        return {
+            title: this.title,
+            tasks: this.tasks.map(t => t.serialize())
+        };
     }
 }
 

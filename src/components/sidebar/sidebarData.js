@@ -12,7 +12,7 @@ export function getSidebarData( user,
             title: null,
             elements: [
                 {
-                    icon: user.icon,
+                    icon: user.getIcon(),
                     label: user.name,
                     classList: ["sidebar-username"],
                     onClick: null,

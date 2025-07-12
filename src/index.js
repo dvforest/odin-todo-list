@@ -6,10 +6,9 @@ import { Task } from "./models/task.js";
 import { createDashboard } from "./components/dashboard/dashboard.js";
 
 const user = new User("David");
-const project = new Project("Work");
-const task = new Task("Submit report", "Finish draft by Friday", "2025-05-30", "Urgent", project);
-user.addProject(project);
-user.addTask(task);
+user.addProject("Work");
+user.addTask({title: "Submit report", description: "Finish draft by Friday", dueDate: "2025-05-30", priority: "Urgent"}, "Work");
 const dashboard = createDashboard(user);
+console.log(user.serialize());
 
 
