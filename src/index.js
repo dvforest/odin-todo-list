@@ -1,14 +1,14 @@
 import "./style.css";
 
 import { User } from "./models/user.js";
-import { Project } from "./models/project.js";
-import { Task } from "./models/task.js";
 import { createDashboard } from "./components/dashboard/dashboard.js";
+import { save, load } from "./utils/storageManager.js";
 
-const user = new User("David");
-user.addProject("Work");
-user.addTask({title: "Submit report", description: "Finish draft by Friday", dueDate: "2025-05-30", priority: "Urgent"}, "Work");
+// const user = new User("David");
+// user.addProject("Work");
+// user.addTask({title: "Submit report", description: "Finish draft by Friday", dueDate: "2026-05-30", priority: "Urgent"}, "Work");
+// save("userData", user);
+
+const user = load("userData", User);
+
 const dashboard = createDashboard(user);
-console.log(user.serialize());
-
-

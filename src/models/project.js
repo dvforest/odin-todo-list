@@ -1,4 +1,12 @@
+import { Task } from "./task";
+
 class Project {
+     static deserialize(data) {
+        const project = new Project(data.title);
+        project.tasks = data.tasks.map(t => Task.deserialize(t));
+        return project;        
+    }
+
     constructor(title, tasks = []){
         this.title = title;
         this.tasks = tasks;

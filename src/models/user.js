@@ -5,11 +5,19 @@ import { Task } from "./task.js";
 class User {
     static defaultProject = "To Do";
 
-    constructor(name){
+    static deserialize(data) {
+        const user = new User(data.name, data.icon);
+        user.projects = data.projects.map(p => Project.deserialize(p));
+        return user;
+    }
+
+    constructor(name, icon = "defaultUser", projects = []){
         this.name = name;
-        this.icon = "defaultUser";
-        this.projects = [];
-        this.addProject(new Project(User.defaultProject));
+        this.icon = icon,
+        this.projects = projects;
+        if (projects.length === 0){
+            this.addProject(User.defaultProject);
+        }
     }
 
     addProject(title, tasks = []){

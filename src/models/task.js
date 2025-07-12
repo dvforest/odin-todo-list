@@ -1,6 +1,11 @@
 class Task {
     static validPriorities = ["Low", "Moderate", "Urgent"];
 
+    static deserialize(data) {
+        const task = new Task(data.title, data.description, data.dueDate, data.priority, data.isComplete, data.subtasks);
+        return task;        
+    }
+
     constructor(title, description, dueDate, priority, isComplete = false, subtasks = []){
         this.title = title;
         this.description = description;
