@@ -1,4 +1,4 @@
-import { icon } from "./icons.js";
+import { icon } from "../../assets/icons.js";
 
 export function getSidebarData( user,
                                 clickActions = {
@@ -26,7 +26,7 @@ export function getSidebarData( user,
                         icon: icon.task,
                         label: "Add a task",
                         classList: ["sidebar-add-task"],
-                        onClick: () => clickActions.addTask(),
+                        onClick: () => clickActions.displayAddTaskModal(),
                     },
                     {
                         icon: icon.today,

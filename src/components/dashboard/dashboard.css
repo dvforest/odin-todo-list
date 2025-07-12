@@ -1,0 +1,15 @@
+.dashboard-main-area {
+    grid-area: main-area;
+    display: flex;
+    flex-direction: column;
+    padding: 75px 120px;
+}
+
+.dashboard-main-area li {
+    border-top: 2px solid var(--light-gray);;
+    padding: 10px 0;
+}
+
+.dashboard-main-area .project-label {
+    padding-left: 5px;
+}

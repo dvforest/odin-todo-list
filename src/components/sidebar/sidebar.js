@@ -1,4 +1,4 @@
-import { createEl, clearHTML } from "../utils/domBuilder.js";
+import { createEl, clearHTML } from "../../utils/domBuilder.js";
 
 export function createSidebar(sidebarData, container) {
 
@@ -22,7 +22,7 @@ export function createSidebar(sidebarData, container) {
         updateSection(name);
     })
 
-    const updateSection = (name) => {
+    function updateSection(name) {
         const sectionEl = sections[name].el;
         const sectionData = sections[name].data 
 
@@ -51,5 +51,8 @@ export function createSidebar(sidebarData, container) {
         });
     }
 
-    return { updateSection };
+    return { 
+        updateSection,
+        getEl: sidebar, 
+    };
 }

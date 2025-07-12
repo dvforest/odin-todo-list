@@ -1,5 +1,5 @@
 import { Project } from "./project.js";
-import { icon } from "../data/icons.js";
+import { icon } from "../assets/icons.js";
 
 class User {
     static defaultProject = "To Do";

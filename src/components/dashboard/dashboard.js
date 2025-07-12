@@ -1,32 +1,32 @@
-import { Task } from "../models/task.js";
-import { createEl, clearHTML } from "../utils/domBuilder.js";
-import { createModal } from "./modalFactory.js";
-import { getSidebarData } from "../data/sidebarData.js";
-import { createSidebar, updateSection } from "./sidebar.js";
+import { Task } from "../../models/task.js";
+import { createEl, clearHTML } from "../../utils/domBuilder.js";
+import { createModal } from "../modal/modal.js";
+import { getSidebarData } from "../sidebar/sidebarData.js";
+import { createSidebar } from "../sidebar/sidebar.js";
 
 export function createDashboard(user) {
     const appContainer = document.querySelector(".app-container");
     const sidebar = createSidebar(
                         getSidebarData( user,
                                         {
-                                            displayTaskModal: () => displayAddTaskModal(),
+                                            displayAddTaskModal: () => displayAddTaskModal(),
                                             displayTodayTasks: () => displayTodayTasks(),
                                             displayUpcomingTasks: () => displayUpcomingTasks(),
                                             displayProject: (name) => displayProject(name),
                                         }
                         ), 
                         appContainer);
-    const mainContent = createEl("div", {classes: ["main-content"]});
-    appContainer.appendChild(mainContent);
+    const mainArea = createEl("div", {classes: ["dashboard-main-area"]});
+    appContainer.appendChild(mainArea);
 
     let currentPage = null;
     const setCurrentPage = (page) => { currentPage = page; };
     const getCurrentPage = () => currentPage;
 
-    const displayAddTaskModal = () => {
+    function displayAddTaskModal() {
         const projects = user.projects.map(project => project.title);
 
-        // Create form content
+        // Form content
         const titleInput = createEl("input", { classes: ["modal-input-text"], attrs: { type: "text", placeholder: "Title" } });
         const descriptionInput = createEl("input", { classes: ["modal-input-text"], attrs: { type: "text", placeholder: "Description" } });
         const dueDateInput = createEl("input", { classes: ["modal-input-date"], attrs: { type: "date" } });
@@ -48,7 +48,7 @@ export function createDashboard(user) {
         // Add button content
         const addBtn = createEl("button", { classes: ["modal-button", "modal-button-add"], text: "Add" });
 
-        // Create modal using content
+        // Use all content to create modal
         const modal = createModal({ 
             content: [
                 createEl("h1", { text: "New Task" }),
@@ -61,7 +61,7 @@ export function createDashboard(user) {
             ] 
         });
 
-        // Events
+        // Add events
         addBtn.addEventListener("click", () => {
             const taskData = {
                 title: titleInput.value.trim(),
@@ -79,8 +79,8 @@ export function createDashboard(user) {
         });
     }
 
-    const displayTodayTasks = () => {
-        clearHTML(mainContent);
+    function displayTodayTasks() {
+        clearHTML(mainArea);
 
         // Create list of elements for each project containing a checkbox and label
         const taskList = user.projects.map( (project, index) => {
@@ -103,23 +103,23 @@ export function createDashboard(user) {
         ];
 
         // Append structure to main content
-        mainContent.append(...structure);
+        mainArea.append(...structure);
 
         setCurrentPage("todayTasks");
 
     }
 
-    const displayUpcomingTasks = () => {
+    function displayUpcomingTasks() {
        console.log("Display Upcoming Tasks");
     }
 
-    const displayProject = (name) => {
+    function displayProject(name) {
         console.log(`Display Project ${name}`);
     }
 
     return {
-        getSidebar: () => sidebar,
-        getMainContent: () => mainContent
+        getSidebar: () => sidebar.getEl,
+        getMainArea: () => mainArea
     };
 
 }
