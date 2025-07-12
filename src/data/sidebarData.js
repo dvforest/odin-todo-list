@@ -2,7 +2,7 @@ import { icon } from "./icons.js";
 
 export function getSidebarData( user,
                                 clickActions = {
-                                    addTask: () => {},
+                                    displayAddTaskModal: () => {},
                                     displayTodayTasks: () => {},
                                     displayUpcomingTasks: () => {},
                                     displayProject: () => {},

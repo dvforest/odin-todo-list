@@ -19,14 +19,13 @@ export function createSidebar(sidebarData, container) {
 
     // Update each section
     Object.keys(sections).forEach(name => {
-        updateSection(sections[name].el, sections[name].data);
+        updateSection(name);
     })
 
-    return sidebar;
-}
+    const updateSection = (name) => {
+        const sectionEl = sections[name].el;
+        const sectionData = sections[name].data 
 
-export function updateSection(sectionEl, sectionData) {
-    
         // Clear section
         clearHTML(sectionEl);
 
@@ -50,4 +49,7 @@ export function updateSection(sectionEl, sectionData) {
             
             sectionEl.appendChild(btn);
         });
+    }
+
+    return { updateSection };
 }
