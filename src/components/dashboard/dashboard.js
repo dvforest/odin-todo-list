@@ -1,6 +1,5 @@
-import { Task } from "../../models/task.js";
 import { createEl, clearHTML } from "../../utils/domBuilder.js";
-import { createModal } from "../modal/modal.js";
+import { createTaskModal } from "../modal/taskModal.js";
 import { getSidebarData } from "../sidebar/sidebarData.js";
 import { createSidebar } from "../sidebar/sidebar.js";
 
@@ -9,7 +8,7 @@ export function createDashboard(user) {
     const sidebar = createSidebar(
                         getSidebarData( user,
                                         {
-                                            displayAddTaskModal: () => displayAddTaskModal(),
+                                            addTask: () => createTaskModal(user, {type: "new"}),
                                             displayTodayTasks: () => displayTodayTasks(),
                                             displayUpcomingTasks: () => displayUpcomingTasks(),
                                             displayProject: (name) => displayProject(name),
@@ -22,62 +21,6 @@ export function createDashboard(user) {
     let currentPage = null;
     const setCurrentPage = (page) => { currentPage = page; };
     const getCurrentPage = () => currentPage;
-
-    function displayAddTaskModal() {
-        const projects = user.projects.map(project => project.title);
-
-        // Form content
-        const titleInput = createEl("input", { classes: ["modal-input-text"], attrs: { type: "text", placeholder: "Title" } });
-        const descriptionInput = createEl("input", { classes: ["modal-input-text"], attrs: { type: "text", placeholder: "Description" } });
-        const dueDateInput = createEl("input", { classes: ["modal-input-date"], attrs: { type: "date" } });
-
-        // Priority selection content
-        const prioritySelect = createEl("select", { classes: [], attrs: { name: "priority", id: "priority-select" } });
-        Task.validPriorities.forEach(priority => {
-            const option = createEl("option", { text: priority, attrs: { value: priority } });
-            prioritySelect.appendChild(option);
-        });
-
-        // Project selection content
-        const projectSelect = createEl("select", { classes: [], attrs: { name: "project", id: "project-select" } });
-        projects.forEach(title => {
-            const option = createEl("option", { text: title, attrs: { value: title } });
-            projectSelect.appendChild(option);
-        });
-
-        // Add button content
-        const addBtn = createEl("button", { classes: ["modal-button", "modal-button-add"], text: "Add" });
-
-        // Use all content to create modal
-        const modal = createModal({ 
-            content: [
-                createEl("h1", { text: "New Task" }),
-                titleInput,
-                descriptionInput,
-                dueDateInput,
-                prioritySelect,
-                projectSelect,
-                addBtn,
-            ] 
-        });
-
-        // Add events
-        addBtn.addEventListener("click", () => {
-            const taskData = {
-                title: titleInput.value.trim(),
-                description: descriptionInput.value.trim(),
-                dueDate: dueDateInput.value,
-                priority: prioritySelect.value,
-                project: projectSelect.value,
-            };
-            if (taskData.title) {
-                const project = user.getProject(taskData.project);
-                user.addTask(new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority, project));
-                sidebar.updateSection("projects");
-                modal.handleClose();
-            }
-        });
-    }
 
     function displayTodayTasks() {
         clearHTML(mainArea);

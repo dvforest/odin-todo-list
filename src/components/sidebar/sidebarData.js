@@ -2,10 +2,10 @@ import { icon } from "../../assets/icons.js";
 
 export function getSidebarData( user,
                                 clickActions = {
-                                    displayAddTaskModal: () => {},
-                                    displayTodayTasks: () => {},
-                                    displayUpcomingTasks: () => {},
-                                    displayProject: () => {},
+                                    addTask: () => {},
+                                    todayTasks: () => {},
+                                    upcomingTasks: () => {},
+                                    project: () => {},
                                 }) {
     return {
         user: {
@@ -26,19 +26,19 @@ export function getSidebarData( user,
                         icon: icon.task,
                         label: "Add a task",
                         classList: ["sidebar-add-task"],
-                        onClick: () => clickActions.displayAddTaskModal(),
+                        onClick: () => clickActions.addTask(),
                     },
                     {
                         icon: icon.today,
                         label: "Today",
                         classList: ["sidebar-today"],
-                        onClick: () => clickActions.displayTodayTasks(),
+                        onClick: () => clickActions.todayTasks(),
                     },
                     {
                         icon: icon.upcoming,
                         label: "Upcoming",
                         classList: ["sidebar-upcoming"],
-                        onClick: () => clickActions.displayUpcomingTasks(),
+                        onClick: () => clickActions.upcomingTasks(),
                     },
                 ],
         },
@@ -49,7 +49,7 @@ export function getSidebarData( user,
                     label: project.title,
                     icon: icon.hashtag,
                     classList: ["sidebar-project"],
-                    onClick: () => clickActions.displayProject(project.title),
+                    onClick: () => clickActions.project(project.title),
                 })
             ),
         }   
