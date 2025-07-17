@@ -24,7 +24,7 @@
 }
 
 .modal-input-text {
-    padding: 4px 4px;
+    padding: 8px 4px;
 }
 
 .modal-close {
@@ -61,12 +61,43 @@
 
 .modal-input-label {
     font-size: 0.8rem;
-    padding-left: 6px;
+    padding: 6px;
     opacity: 50%;
     width: 50px;
+}
+
+.modal-input-text-large {
+    height: 4rem;
 }
 
 .modal-input-date, .modal-input-select {
     flex: 1;
     padding: 4px 4px;
+}
+
+.modal-button {
+    font-size: 1rem;
+    font-weight: 500;
+    border: 0;
+    border-radius: 6px;
+    padding: 8px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-button:hover {
+     background: var(--pink);
+        color: white;
+}
+
+.modal-button img {
+    aspect-ratio: 1;
+    width: 1.5rem;
+    margin-right: 0.5rem;
+    filter: brightness(0) saturate(100%) invert(16%) sepia(91%) saturate(3788%) hue-rotate(354deg) brightness(84%) contrast(92%);
+}
+
+.modal-button:hover img {
+    filter: brightness(0) invert(1);
 }

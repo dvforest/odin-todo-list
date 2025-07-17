@@ -1,13 +1,14 @@
 import { Task } from "../../models/task.js";
 import { createModal } from "./modal.js";
 import { createEl } from "../../utils/domBuilder.js"
+import { icon } from "../../assets/icons.js";
 
 export function createTaskModal(user, task = null) {
     const projects = user.projects.map(project => project.title);
 
     // Form content
     const titleInput = createEl("input", { classes: ["modal-input-text"], attrs: { type: "text", placeholder: "Title" } });
-    const descriptionInput = createEl("input", { classes: ["modal-input-text"], attrs: { type: "text", placeholder: "Description" } });
+    const descriptionInput = createEl("input", { classes: ["modal-input-text", "modal-input-text-large"], attrs: { type: "text", placeholder: "Description" } });
     const dueDateWrapper = createEl("div", {classes: ["modal-flex-wrapper"], children: [
         createEl("label", { classes: ["modal-input-label"], text: "Due", attrs: { for: "task-due-date" } }),
         createEl("input", { classes: ["modal-input-date"], attrs: { type: "date", id: "task-due-date" } }),
@@ -36,18 +37,23 @@ export function createTaskModal(user, task = null) {
     ]});
 
     // Add button content
-    const addBtn = createEl("button", { classes: ["modal-button", "modal-button-add"], text: "Add" });
+    const addBtn = createEl("button", { classes: ["modal-button"], children: [
+        createEl("img", {attrs: {src: icon.task}}),
+        createEl("div", {classes: ["button-label"], text: "Add"}),
+    ]});
 
     // Use all content to create modal
     const modal = createModal({ 
         content: [
-            createEl("h1", { text: "New Task" }),
-            titleInput,
-            descriptionInput,
-            dueDateWrapper,
-            prioritySelectWrapper,
-            projectSelectWrapper,
-            addBtn,
+            createEl("div", { classes: ["task-modal-wrapper"] , children: [
+                createEl("h1", { text: "New Task" }),
+                titleInput,
+                descriptionInput,
+                dueDateWrapper,
+                prioritySelectWrapper,
+                projectSelectWrapper,
+                addBtn,
+            ]}),
         ] 
     });
 

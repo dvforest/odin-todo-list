@@ -1,6 +1,7 @@
 @import "./components/dashboard/dashboard.css";
 @import "./components/sidebar/sidebar.css";
 @import "./components/modal/modal.css";
+@import "./components/modal/taskModal.css";
 
 * {
     margin: 0;
@@ -17,6 +18,7 @@
     --near-black: #373737;
     --muted-gray: #b4b4b4;
     --pink: #c71717;
+    --light-pink: #d79999; 
 }
 
 
