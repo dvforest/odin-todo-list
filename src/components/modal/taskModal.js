@@ -6,15 +6,21 @@ import { icon } from "../../assets/icons.js";
 export function createTaskModal(user, task = null) {
     const projects = user.projects.map(project => project.title);
 
-    // Form content
+    // Title
     const titleInput = createEl("input", { classes: ["modal-input-text"], attrs: { type: "text", placeholder: "Title" } });
-    const descriptionInput = createEl("input", { classes: ["modal-input-text", "modal-input-text-large"], attrs: { type: "text", placeholder: "Description" } });
+    
+    // Description
+    const descriptionInput = createEl("textarea", { classes: ["modal-input-text-area"], attrs: { rows: 5, placeholder: "Description" } });
+    
+    // Due Date
+    const today = new Date().toISOString().split("T")[0];
+    const dueDateInput = createEl("input", { classes: ["modal-input-date"], attrs: { type: "date", id: "task-due-date", value: today } });
     const dueDateWrapper = createEl("div", {classes: ["modal-flex-wrapper"], children: [
         createEl("label", { classes: ["modal-input-label"], text: "Due", attrs: { for: "task-due-date" } }),
-        createEl("input", { classes: ["modal-input-date"], attrs: { type: "date", id: "task-due-date" } }),
+        dueDateInput,
     ]});
 
-    // Priority selection content
+    // Priority select
     const prioritySelect = createEl("select", { classes: ["modal-input-select"], attrs: { name: "priority", id: "task-priority" } });
     Task.validPriorities.forEach(priority => {
         const option = createEl("option", { text: priority, attrs: { value: priority } });
@@ -25,7 +31,7 @@ export function createTaskModal(user, task = null) {
         prioritySelect,
     ]});
 
-    // Project selection content
+    // Project select
     const projectSelect = createEl("select", { classes: ["modal-input-select"], attrs: { name: "project", id: "project-select" } });
     projects.forEach(title => {
         const option = createEl("option", { text: title, attrs: { value: title } });
@@ -36,13 +42,13 @@ export function createTaskModal(user, task = null) {
        projectSelect,
     ]});
 
-    // Add button content
+    // Button
     const addBtn = createEl("button", { classes: ["modal-button"], children: [
         createEl("img", {attrs: {src: icon.task}}),
         createEl("div", {classes: ["button-label"], text: "Add"}),
     ]});
 
-    // Use all content to create modal
+    // Create modal
     const modal = createModal({ 
         content: [
             createEl("div", { classes: ["task-modal-wrapper"] , children: [
@@ -67,8 +73,14 @@ export function createTaskModal(user, task = null) {
             project: projectSelect.value,
         };
         if (taskData.title) {
-            const project = user.getProject(taskData.project);
-            user.addTask(new Task(taskData.title, taskData.description, taskData.dueDate, taskData.priority, project));
+            user.addTask(
+                {
+                    title: taskData.title,
+                    description: taskData.description,
+                    dueDate: taskData.dueDate,
+                    priority: taskData.priority
+                },
+                taskData.project);
             modal.handleClose();
         }
     });

@@ -1,7 +1,6 @@
 @import "./components/dashboard/dashboard.css";
 @import "./components/sidebar/sidebar.css";
 @import "./components/modal/modal.css";
-@import "./components/modal/taskModal.css";
 
 * {
     margin: 0;

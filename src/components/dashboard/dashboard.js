@@ -9,9 +9,9 @@ export function createDashboard(user) {
                         getSidebarData( user,
                                         {
                                             addTask: () => createTaskModal(user, {type: "new"}),
-                                            displayTodayTasks: () => displayTodayTasks(),
-                                            displayUpcomingTasks: () => displayUpcomingTasks(),
-                                            displayProject: (name) => displayProject(name),
+                                            todayTasks: () => displayTodayTasks(),
+                                            upcomingTasks: () => displayUpcomingTasks(),
+                                            project: (name) => displayProject(name),
                                         }
                         ), 
                         appContainer);
