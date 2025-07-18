@@ -46,6 +46,12 @@ class User {
         return icon[this.icon];
     }
 
+    getTasksbyDate(date) {
+        return this.projects.flatMap( p => 
+            p.tasks.filter( t => t.dueDate === date)
+        );
+    }
+
     serialize() {
         return {
             name: this.name,
