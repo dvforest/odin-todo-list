@@ -46,9 +46,11 @@ class User {
         return icon[this.icon];
     }
 
-    getTasksbyDate(date) {
-        return this.projects.flatMap( p => 
-            p.tasks.filter( t => t.dueDate === date)
+    getTasks({date = "any", project = "any"} = {}) {
+        return this.projects
+        .filter( p => project === "any" || p.title === project)
+        .flatMap( p => 
+            p.tasks.filter( t => date === "any" || t.dueDate === date)
         );
     }
 

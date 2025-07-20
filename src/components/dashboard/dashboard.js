@@ -2,7 +2,7 @@ import { createEl, clearHTML } from "../../utils/domBuilder.js";
 import { createTaskModal } from "../modal/taskModal.js";
 import { getSidebarData } from "../sidebar/sidebarData.js";
 import { createSidebar } from "../sidebar/sidebar.js";
-import { today } from "../../utils/dateUtils.js";
+import { format } from "date-fns";
 
 export function createDashboard(user) {
     const appContainer = document.querySelector(".app-container");
@@ -10,9 +10,9 @@ export function createDashboard(user) {
                         getSidebarData( user,
                                         {
                                             addTask: () => createTaskModal(user, {type: "new"}),
-                                            todayTasks: () => displayTasks(today),
+                                            todayTasks: () => displayTasks({date: format(new Date, "yyyy-MM-dd")}),
                                             upcomingTasks: () => displayTasks(),
-                                            project: (name) => displayProject(name),
+                                            project: (title) => displayTasks({project: title}),
                                         }
                         ), 
                         appContainer);
@@ -23,16 +23,16 @@ export function createDashboard(user) {
     const setCurrentPage = (page) => { currentPage = page; };
     const getCurrentPage = () => currentPage;
 
-    function displayTasks(date) {
+    function displayTasks({date = "any", project = "any"} = {}) {
         clearHTML(mainArea);
 
-        // Create list of elements for each project containing a checkbox and label
-        const taskList = user.projects.map( (project, index) => {
-            const inputId = `project${index}`;
+        // Create list of elements for each task containing a checkbox and label
+        const tasks = user.getTasks({date, project}).map( (t, index) => {
+            const inputId = `task${index}`;
             return createEl("li", {
                 children: [
-                    createEl("input", { classes: ["project-checkbox"], attrs: {type: "checkbox", id: inputId} } ),
-                    createEl("label", { classes: ["project-label"], text: project.title, attrs: {for: inputId} } ),
+                    createEl("input", { classes: ["task-checkbox"], attrs: {type: "checkbox", id: inputId} } ),
+                    createEl("label", { classes: ["task-label"], text: t.title, attrs: {for: inputId} } ),
                 ]
             })
         });
@@ -42,7 +42,7 @@ export function createDashboard(user) {
             createEl("h1", {text: "Today"}),
             createEl("h2", {text: "My Tasks"}),
             createEl("ul", {
-                children: taskList
+                children: tasks
             })
         ];
 
@@ -51,14 +51,6 @@ export function createDashboard(user) {
 
         setCurrentPage("todayTasks");
 
-    }
-
-    function displayUpcomingTasks() {
-       console.log("Display Upcoming Tasks");
-    }
-
-    function displayProject(name) {
-        console.log(`Display Project ${name}`);
     }
 
     return {

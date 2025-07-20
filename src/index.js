@@ -10,5 +10,6 @@ import { save, load } from "./utils/storageManager.js";
 // save("userData", user);
 
 const user = load("userData", User);
+user.addTask({title: "Finish email", description: "Write to Gavan", dueDate: "2025-07-20", priority: "Moderate"}, "Work");
 
 const dashboard = createDashboard(user);
