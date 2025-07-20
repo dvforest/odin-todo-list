@@ -5,11 +5,42 @@
     padding: 75px 120px;
 }
 
-.dashboard-main-area li {
-    border-top: 2px solid var(--light-gray);;
-    padding: 10px 0;
+.task-list {
+    display: grid;
+    grid-template-columns: 40px 1.5fr 2fr 1fr 1fr;
+    gap: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.dashboard-main-area .project-label {
-    padding-left: 5px;
+.task-row {
+    display: contents; /* Allows li to not break grid rows */
+}
+
+.task-header .task-col {
+    font-weight: bold;
+    color: var(--muted-gray);
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--light-gray);
+}
+
+.task-col {
+    padding: 10px 8px;
+    border-top: 1px solid var(--light-gray);
+    display: flex;
+    align-items: center;
+}
+
+.task-col-checkbox {
+    justify-content: center;
+}
+
+.task-col-title {
+    font-weight: 600;
+}
+
+.task-col-priority {
+    font-size: 0.95em;
+    color: var(--pink);
 }
