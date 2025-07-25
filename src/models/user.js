@@ -42,6 +42,13 @@ class User {
         project.addTask(task);
     }
 
+    editTask(task, {title, description, dueDate, priority, isComplete, subtasks}, projectTitle){
+        const project = this.getProject(projectTitle);
+        if (!project.tasks.includes(task.title)) { // if project has changed
+            project.addTask(task);
+        } 
+    }
+
     getIcon(){
         return icon[this.icon];
     }

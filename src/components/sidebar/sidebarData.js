@@ -23,7 +23,7 @@ export function getSidebarData( user,
             title: null,
                 elements: [        
                     {
-                        icon: icon.task,
+                        icon: icon.add,
                         label: "Add a task",
                         classList: ["sidebar-add-task"],
                         onClick: () => clickActions.addTask(),

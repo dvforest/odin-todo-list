@@ -2,8 +2,12 @@ import { Task } from "../../models/task.js";
 import { createModal } from "./modal.js";
 import { createEl } from "../../utils/domBuilder.js"
 import { icon } from "../../assets/icons.js";
+import { getTaskModalData } from "./taskModalData.js";
 
-export function createTaskModal(user, task = null) {
+export function createTaskModal(user, { type = "new", task = null, project = null } = {}) {
+    const taskModalData = type === "edit"
+        ? getTaskModalData(user).edit
+        : getTaskModalData(user).new;
     const projects = user.projects.map(project => project.title);
 
     // Title
@@ -44,7 +48,7 @@ export function createTaskModal(user, task = null) {
 
     // Button
     const addBtn = createEl("button", { classes: ["modal-button"], children: [
-        createEl("img", {attrs: {src: icon.task}}),
+        createEl("img", {attrs: {src: icon.add}}),
         createEl("div", {classes: ["button-label"], text: "Add"}),
     ]});
 
@@ -52,7 +56,7 @@ export function createTaskModal(user, task = null) {
     const modal = createModal({ 
         content: [
             createEl("div", { classes: ["task-modal-wrapper"] , children: [
-                createEl("h1", { text: "New Task" }),
+                createEl("h1", { text: taskModalData.title }),
                 titleInput,
                 descriptionInput,
                 dueDateWrapper,
@@ -72,16 +76,14 @@ export function createTaskModal(user, task = null) {
             priority: prioritySelect.value,
             project: projectSelect.value,
         };
-        if (taskData.title) {
-            user.addTask(
-                {
-                    title: taskData.title,
-                    description: taskData.description,
-                    dueDate: taskData.dueDate,
-                    priority: taskData.priority
-                },
-                taskData.project);
-            modal.handleClose();
-        }
+        if (!taskData.title) return; // Prevent empty titles
+
+        // Prepare arguments for submit
+        const args = type === edit
+        ? [task, taskData, taskData.project]
+        : [taskData, taskData.project];
+
+        taskModalData.submit(...args);
+        modal.handleClose();
     });
 }
