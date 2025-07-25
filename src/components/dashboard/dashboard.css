@@ -7,7 +7,7 @@
 
 .task-list {
     display: grid;
-    grid-template-columns: 40px 1.5fr 2fr 1fr 1fr;
+    grid-template-columns: 40px 1.5fr 2fr 1fr 1fr 40px;
     gap: 0;
     list-style: none;
     padding: 0;
@@ -43,4 +43,18 @@
 .task-col-priority {
     font-size: 0.95em;
     color: var(--pink);
+}
+
+.task-edit-btn {
+    background: transparent;
+    border: none;
+}
+
+.task-edit-img {
+    aspect-ratio: 1;
+    width: 22px;
+}
+
+.task-edit-img:hover{
+    filter: brightness(0) saturate(100%) invert(16%) sepia(91%) saturate(3788%) hue-rotate(354deg) brightness(84%) contrast(92%);
 }

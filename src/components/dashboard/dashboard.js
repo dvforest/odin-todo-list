@@ -3,6 +3,7 @@ import { createTaskModal } from "../modal/taskModal.js";
 import { getSidebarData } from "../sidebar/sidebarData.js";
 import { createSidebar } from "../sidebar/sidebar.js";
 import { format } from "date-fns";
+import { icon } from "../../assets/icons.js";
 
 export function createDashboard(user) {
     const appContainer = document.querySelector(".app-container");
@@ -35,12 +36,17 @@ export function createDashboard(user) {
                 createEl("div", { classes: ["task-col", "task-col-desc"], text: "Description" }),
                 createEl("div", { classes: ["task-col", "task-col-date"], text: "Due Date" }),
                 createEl("div", { classes: ["task-col", "task-col-priority"], text: "Priority" }),
+                createEl("div", { classes: ["task-col", "task-col-edit"], text: ""}),
             ]
         });
 
         // Create list of elements for each task as grid rows
         const tasks = user.getTasks({date, project}).map((t, index) => {
             const inputId = `task${index}`;
+            const editBtn = createEl("button", { classes: ["task-edit-btn"], children: [
+                                createEl("img", { classes: ["task-edit-img"], attrs: {src: icon.edit }})
+                            ]});
+            editBtn.addEventListener("click", () => createTaskModal(user, {type: "new"}));
             return createEl("li", {
                 classes: ["task-row"],
                 children: [
@@ -51,6 +57,7 @@ export function createDashboard(user) {
                     createEl("div", { classes: ["task-col", "task-col-desc"], text: t.description || "" }),
                     createEl("div", { classes: ["task-col", "task-col-date"], text: t.dueDate || "" }),
                     createEl("div", { classes: ["task-col", "task-col-priority"], text: t.priority || "" }),
+                    createEl("div", { classes: ["task-col", "task-col-edit"], children: [ editBtn ]}),
                 ]
             });
         });
@@ -69,7 +76,6 @@ export function createDashboard(user) {
         mainArea.append(...structure);
 
         setCurrentPage("todayTasks");
-
     }
 
     return {

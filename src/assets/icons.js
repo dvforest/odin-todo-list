@@ -4,6 +4,7 @@ import todaySVG from "../assets/img/today.svg";
 import upcomingSVG from "../assets/img/upcoming.svg";
 import projectsSVG from "../assets/img/projects.svg";
 import hashtagSVG from "../assets/img/hashtag.svg";
+import editSVG from "../assets/img/edit.svg";
 
 export const icon = {
     defaultUser: defaultUserSVG,
@@ -11,5 +12,6 @@ export const icon = {
     today: todaySVG,
     upcoming: upcomingSVG,
     project: projectsSVG,
-    hashtag: hashtagSVG, 
+    hashtag: hashtagSVG,
+    edit: editSVG, 
 }
