@@ -10,7 +10,7 @@ export function createDashboard(user) {
     const sidebar = createSidebar(
                         getSidebarData( user,
                                         {
-                                            addTask: () => createTaskModal(user, {type: "new"}),
+                                            addTask: () => createTaskModal(user, { type: "new", onSubmit: () => updateCurrentPage() }),
                                             todayTasks: () => displayTasks({date: format(new Date, "yyyy-MM-dd")}),
                                             upcomingTasks: () => displayTasks(),
                                             project: (title) => displayTasks({project: title}),
@@ -20,9 +20,15 @@ export function createDashboard(user) {
     const mainArea = createEl("div", {classes: ["dashboard-main-area"]});
     appContainer.appendChild(mainArea);
 
-    let currentPage = null;
+    let lastDisplayArgs = {};
 
-    function displayTasks({date = "any", project = "any"} = {}) {
+    function updateCurrentPage() {
+        displayTasks(lastDisplayArgs);
+    }
+
+    function displayTasks(args = {}) {
+        lastDisplayArgs = args;
+        const {date = "any", project = "any", currentPage = ""} = args;
         clearHTML(mainArea);
 
         // Create header row for grid
@@ -44,7 +50,14 @@ export function createDashboard(user) {
             const editBtn = createEl("button", { classes: ["task-edit-btn"], children: [
                                 createEl("img", { classes: ["task-edit-img"], attrs: {src: icon.edit }})
                             ]});
-            editBtn.addEventListener("click", () => createTaskModal(user, {type: "edit", task: t, project: t.project}));
+            editBtn.addEventListener("click", () =>
+                createTaskModal(user, {
+                    type: "edit",
+                    task: t,
+                    project: t.project,
+                    onSubmit: () => updateCurrentPage()
+                })
+            );
             return createEl("li", {
                 classes: ["task-row"],
                 children: [
@@ -73,12 +86,6 @@ export function createDashboard(user) {
         // Append structure to main content
         mainArea.append(...structure);
 
-        setCurrentPage("todayTasks");
     }
-
-    return {
-        getSidebar: () => sidebar.getEl(),
-        getMainArea: () => mainArea
-    };
 
 }

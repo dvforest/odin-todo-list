@@ -4,7 +4,7 @@ import { createEl } from "../../utils/domBuilder.js"
 import { icon } from "../../assets/icons.js";
 import { getTaskModalData } from "./taskModalData.js";
 
-export function createTaskModal(user, { type = "new", task = null, project = null } = {}) {
+export function createTaskModal(user, { type = "new", task = null, project = null, onSubmit = () => {} } = {}) {
     const taskModalData = type === "edit"
         ? getTaskModalData(user).edit
         : getTaskModalData(user).new;
@@ -85,6 +85,7 @@ export function createTaskModal(user, { type = "new", task = null, project = nul
 
         taskModalData.submit(...args);
         modal.handleClose();
+        onSubmit();
     });
 
     // Prefill if editing task
