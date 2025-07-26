@@ -48,8 +48,8 @@ export function createTaskModal(user, { type = "new", task = null, project = nul
 
     // Button
     const addBtn = createEl("button", { classes: ["modal-button"], children: [
-        createEl("img", {attrs: {src: icon.add}}),
-        createEl("div", {classes: ["button-label"], text: "Add"}),
+        createEl("img", {attrs: {src: taskModalData.icon}}),
+        createEl("div", {classes: ["button-label"], text: taskModalData.submitText}),
     ]});
 
     // Create modal
@@ -79,11 +79,20 @@ export function createTaskModal(user, { type = "new", task = null, project = nul
         if (!taskData.title) return; // Prevent empty titles
 
         // Prepare arguments for submit
-        const args = type === edit
+        const args = type === "edit"
         ? [task, taskData, taskData.project]
         : [taskData, taskData.project];
 
         taskModalData.submit(...args);
         modal.handleClose();
     });
+
+    // Prefill if editing task
+        if (type === "edit") {
+            titleInput.value = task.title;
+            descriptionInput.value = task.description;
+            dueDateInput.value = task.dueDate;
+            prioritySelect.value = task.priority;
+            projectSelect.value = task.project.title;
+        }
 }

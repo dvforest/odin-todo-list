@@ -6,13 +6,14 @@ class Task {
         return task;        
     }
 
-    constructor(title, description, dueDate, priority, isComplete = false, subtasks = []){
+    constructor(title, description, dueDate, priority, isComplete = false, subtasks = [], project){
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
         this.isComplete = isComplete;
         this.subtasks = subtasks;
+        this.project = project;
     }
 
     addSubtask(subtask){

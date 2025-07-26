@@ -6,13 +6,13 @@ export function getTaskModalData(user) {
             title: "New Task",
             submitText: "Add",
             icon: icon.add,
-            submit: () => user.addTask(taskData, projectTitle),
+            submit: (taskData, projectTitle) => user.addTask(taskData, projectTitle),
         },
         edit: {
             title: "Edit Task",
             submitText: "Confirm",
             icon: icon.edit,
-            submit: () => user.editTask(task, taskData, projectTitle),
+            submit: (task, taskData, projectTitle) => user.editTask(task, taskData, projectTitle),
         }
     };
 }

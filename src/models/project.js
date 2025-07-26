@@ -16,8 +16,12 @@ class Project {
         this.tasks.push(task);
     }
 
-    removeTask(index){
-        this.tasks.splice(index, 1);
+    removeTask(task){
+        this.tasks = this.tasks.filter(t => t !== task);
+    }
+
+    getTask(title){
+        return this.projects.tasks.find(t => t.title === title);
     }
 
     serialize(){

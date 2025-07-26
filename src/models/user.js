@@ -37,28 +37,50 @@ class User {
     }
 
     addTask({title, description, dueDate, priority, isComplete, subtasks}, projectTitle){
-        const task = new Task(title, description, dueDate, priority, isComplete, subtasks);
         const project = this.getProject(projectTitle);
+        const task = new Task(title, description, dueDate, priority, isComplete, subtasks, project);
         project.addTask(task);
     }
 
     editTask(task, {title, description, dueDate, priority, isComplete, subtasks}, projectTitle){
         const project = this.getProject(projectTitle);
-        if (!project.tasks.includes(task.title)) { // if project has changed
+        
+        // Move task to new project if needed
+        if (!project.tasks.includes(task)) {
+            const oldProject = task.project;
+            oldProject.removeTask(task);
+            task.project = project;
             project.addTask(task);
-        } 
+        }
+
+        // Update task properties
+        task.title = title;
+        task.description = description;
+        task.dueDate = dueDate;
+        task.priority = priority;
+        task.isComplete = isComplete;
+        task.subtasks = subtasks;
     }
 
     getIcon(){
         return icon[this.icon];
     }
 
-    getTasks({date = "any", project = "any"} = {}) {
+    getFilteredTasks({date = "any", project = "any"} = {}) {
         return this.projects
         .filter( p => project === "any" || p.title === project)
         .flatMap( p => 
             p.tasks.filter( t => date === "any" || t.dueDate === date)
         );
+    }
+
+    getTask(title){
+        for (const project of this.projects) {
+            const task = project.tasks.find(t => t.title === title);
+            if (task) {
+                return task;
+            }
+        }
     }
 
     serialize() {

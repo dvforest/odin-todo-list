@@ -21,8 +21,6 @@ export function createDashboard(user) {
     appContainer.appendChild(mainArea);
 
     let currentPage = null;
-    const setCurrentPage = (page) => { currentPage = page; };
-    const getCurrentPage = () => currentPage;
 
     function displayTasks({date = "any", project = "any"} = {}) {
         clearHTML(mainArea);
@@ -41,12 +39,12 @@ export function createDashboard(user) {
         });
 
         // Create list of elements for each task as grid rows
-        const tasks = user.getTasks({date, project}).map((t, index) => {
+        const tasks = user.getFilteredTasks({date, project}).map((t, index) => {
             const inputId = `task${index}`;
             const editBtn = createEl("button", { classes: ["task-edit-btn"], children: [
                                 createEl("img", { classes: ["task-edit-img"], attrs: {src: icon.edit }})
                             ]});
-            editBtn.addEventListener("click", () => createTaskModal(user, {type: "new"}));
+            editBtn.addEventListener("click", () => createTaskModal(user, {type: "edit", task: t, project: t.project}));
             return createEl("li", {
                 classes: ["task-row"],
                 children: [
